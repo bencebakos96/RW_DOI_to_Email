@@ -28,7 +28,7 @@ k <- 1
 for (i in k:length(RW_dois)) { # loop runs from the first element to the last
   my_query <- RW_dois[k] # we submit element k as the search term for PubMed
   my_entrez_id <- get_pubmed_ids(my_query) # we get the record's PubMed ID
-  articles_xml <- fetch_pubmed_data(my_entrez_id, format = "xml") # we get the data based on the PubMed ID
+  articles_xml <- tryCatch(fetch_pubmed_data(my_entrez_id, format = "xml"), error = function(e){}) # we get the data based on the PubMed ID
   data_new <- tryCatch(article_to_df(articles_to_list(articles_xml)),error = function(e){})
   # we get data in XML format and convert it to a dataframe
   # this line sometimes results in an error, halting the loop, but using tryCatch prevents that
